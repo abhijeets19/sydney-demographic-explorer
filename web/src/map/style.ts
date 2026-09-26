@@ -1,7 +1,7 @@
 import { layers, namedFlavor, type Flavor } from '@protomaps/basemaps';
 import type { ExpressionSpecification, LayerSpecification, StyleSpecification } from 'maplibre-gl';
 import type { SchemaMetric } from '../data/schema';
-import { mosaicRamp, PIN_COLORS } from '../util/color';
+import { mosaicRamp, PALETTES, PIN_COLORS, type PaletteName } from '../util/color';
 
 /** Protomaps "dark", pushed further back so the Mesh Block mosaic and pins carry the page. */
 function recedingFlavor(): Flavor {
@@ -59,7 +59,13 @@ const INSERT_BEFORE = 'roads_tunnels_other_casing';
 
 export const MB_SOURCE = 'mb';
 export const MB_LAYER = 'mb';
-export const RAMP = mosaicRamp(9);
+const params = new URLSearchParams(location.search);
+const requested = params.get('palette');
+/** Mosaic palette: gold by default; ?palette=slate|dusk to compare */
+export const PALETTE: PaletteName = requested && requested in PALETTES ? (requested as PaletteName) : 'gold';
+/** Spotlight (default on): dim every block outside the catchments so the circles light up. ?spotlight=0 turns it off. */
+export const SPOTLIGHT = params.get('spotlight') !== '0';
+export const RAMP = mosaicRamp(9, PALETTE);
 
 /** Quantile breaks -> ramp: every colour covers a similar number of blocks, giving a full mosaic. */
 export function metricColor(metric: SchemaMetric): ExpressionSpecification {
@@ -101,8 +107,8 @@ export function buildStyle(opts: { basemapUrl: string; mbUrl: string; metric: Sc
       filter: ['has', 'pop'],
       paint: {
         'fill-antialias': false,
-        'fill-color': ['case', ['all', inA, inB], '#f3ece2', inA, a, b],
-        'fill-opacity': ['case', ['any', inA, inB], 0.3, 0],
+        'fill-color': ['case', ['all', inA, inB], '#f3ece2', inA, a, inB, b, '#05070a'],
+        'fill-opacity': ['case', ['any', inA, inB], SPOTLIGHT ? 0.22 : 0.3, SPOTLIGHT ? 0.62 : 0],
       },
     },
     {

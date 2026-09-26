@@ -206,10 +206,10 @@ body.grabbing * {
   min-width: 0;
 }
 .card-a {
-  border-color: rgba(25, 227, 242, 0.28);
+  border-color: var(--pin-a-line);
 }
 .card-b {
-  border-color: rgba(255, 122, 102, 0.3);
+  border-color: var(--pin-b-line);
 }
 .card-head {
   display: flex;
@@ -227,11 +227,11 @@ body.grabbing * {
 }
 .badge-a {
   background: var(--pin-a);
-  color: #04181b;
+  color: var(--pin-a-ink);
 }
 .badge-b {
   background: var(--pin-b);
-  color: #230905;
+  color: var(--pin-b-ink);
 }
 .card-total {
   display: flex;
@@ -305,13 +305,13 @@ body.grabbing * {
   background: var(--pin-a);
 }
 .card-a .sw-f {
-  background: #0f98a4;
+  background: var(--pin-a-deep);
 }
 .card-b .sw-m {
   background: var(--pin-b);
 }
 .card-b .sw-f {
-  background: #c24e3d;
+  background: var(--pin-b-deep);
 }
 
 /* age */
@@ -326,13 +326,13 @@ body.grabbing * {
   color: var(--pin-a);
 }
 .card-a .sx-f {
-  color: #19c2d0;
+  color: var(--pin-a-soft);
 }
 .card-b .sx-m {
   color: var(--pin-b);
 }
 .card-b .sx-f {
-  color: #e86b58;
+  color: var(--pin-b-soft);
 }
 .pyramid {
   display: block;

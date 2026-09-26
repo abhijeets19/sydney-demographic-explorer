@@ -24,18 +24,39 @@ export function oklab(l: number, a: number, b: number): string {
   return `#${enc(r)}${enc(g)}${enc(bl)}`;
 }
 
-/**
- * Mesh Block mosaic ramp: deep indigo-slate -> neutral -> warm bone, interpolated in OKLab so the
- * middle passes through quiet greys. Chroma stays well below the pin accents (cyan, coral).
- */
-export function mosaicRamp(n: number): string[] {
-  const stops: [number, number, number][] = [
+/** Mosaic palettes as OKLCH stops [L, C, h], interpolated in OKLab. */
+export const PALETTES = {
+  /** quiet indigo-slate -> bone; recedes behind the pins */
+  slate: [
     [0.21, 0.05, 280],
     [0.35, 0.05, 266],
     [0.49, 0.034, 250],
     [0.63, 0.016, 215],
     [0.77, 0.022, 80],
-  ];
+  ],
+  /** deep violet -> orchid -> cream; purple sits between the cyan and coral pins */
+  dusk: [
+    [0.25, 0.1, 292],
+    [0.4, 0.15, 300],
+    [0.56, 0.15, 318],
+    [0.74, 0.1, 340],
+    [0.93, 0.045, 80],
+  ],
+  /** navy -> steel -> gold */
+  gold: [
+    [0.24, 0.075, 268],
+    [0.4, 0.075, 258],
+    [0.58, 0.03, 235],
+    [0.77, 0.11, 85],
+    [0.91, 0.13, 96],
+  ],
+} satisfies Record<string, [number, number, number][]>;
+
+export type PaletteName = keyof typeof PALETTES;
+
+/** Mesh Block mosaic ramp with n colours from a named palette. */
+export function mosaicRamp(n: number, palette: PaletteName = 'slate'): string[] {
+  const stops = PALETTES[palette];
   const lab = stops.map(([l, c, h]) => [l, c * Math.cos((h * Math.PI) / 180), c * Math.sin((h * Math.PI) / 180)]);
   return Array.from({ length: n }, (_, i) => {
     const t = (i / (n - 1)) * (lab.length - 1);
@@ -47,7 +68,8 @@ export function mosaicRamp(n: number): string[] {
   });
 }
 
+/** A = coral red, B = electric cyan (mirrored in styles/tokens.css --pin-*) */
 export const PIN_COLORS = {
-  a: { main: '#19e3f2', deep: '#0f98a4', ink: '#04181b' },
-  b: { main: '#ff7a66', deep: '#c24e3d', ink: '#230905' },
+  a: { main: '#ff7a66', deep: '#c24e3d', ink: '#230905' },
+  b: { main: '#19e3f2', deep: '#0f98a4', ink: '#04181b' },
 } as const;

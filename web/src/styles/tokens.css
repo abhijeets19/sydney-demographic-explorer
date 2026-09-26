@@ -11,9 +11,17 @@
   --text-2: #a1abb4;
   --text-3: #66717b;
 
-  /* pins */
-  --pin-a: #19e3f2;
-  --pin-b: #ff7a66;
+  /* pins: A = coral red, B = electric cyan (mirrored in util/color.ts PIN_COLORS) */
+  --pin-a: #ff7a66;
+  --pin-a-deep: #c24e3d;
+  --pin-a-soft: #e86b58;
+  --pin-a-ink: #230905;
+  --pin-a-line: rgba(255, 122, 102, 0.3);
+  --pin-b: #19e3f2;
+  --pin-b-deep: #0f98a4;
+  --pin-b-soft: #19c2d0;
+  --pin-b-ink: #04181b;
+  --pin-b-line: rgba(25, 227, 242, 0.28);
 
   /* status */
   --warn: #e8c46a;
