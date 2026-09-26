@@ -1,0 +1,53 @@
+:root {
+  /* surfaces */
+  --bg: #0b0d10;
+  --surface: #101317;
+  --surface-2: #151a1f;
+  --hairline: #222a31;
+  --hairline-strong: #2e3740;
+
+  /* text */
+  --text-1: #e8ecef;
+  --text-2: #a1abb4;
+  --text-3: #66717b;
+
+  /* pins */
+  --pin-a: #19e3f2;
+  --pin-b: #ff7a66;
+
+  /* status */
+  --warn: #e8c46a;
+
+  --font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.4;
+  font-feature-settings: 'tnum' 1, 'cv11' 1, 'ss01' 1;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}

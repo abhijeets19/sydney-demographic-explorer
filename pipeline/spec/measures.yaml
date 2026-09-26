@@ -1,0 +1,429 @@
+# Measure spec: app measures -> ABS 2021 GCP DataPack short-header columns.
+#
+# Every `src` is resolved against Metadata_2021_GCP_DataPack_R1_R2.xlsx at build time
+# (table family + short name must exist and be unique). A list `src` is summed.
+# The resolved Long descriptors are written into schema.json for review.
+#
+# weight: p = Mesh Block person weight, d = Mesh Block dwelling weight.
+# universe: what one unit of the column counts.
+# brackets: `lo` inclusive / `hi` exclusive in the table's own units; hi: null = open-ended.
+# role: `value` (default) | `notstated` (shown but excluded from shares and medians)
+
+version: 1
+
+groups:
+  # ---------------------------------------------------------------- People
+  - id: sex
+    tab: people
+    table: G01
+    universe: persons
+    weight: p
+    label: Persons by sex
+    columns:
+      - { key: m, label: Male,   src: Tot_P_M }
+      - { key: f, label: Female, src: Tot_P_F }
+
+  - id: person_flags
+    tab: people
+    table: G01
+    universe: persons
+    weight: p
+    label: Selected person characteristics
+    columns:
+      - { key: born_aus,   label: Born in Australia,              src: Birthplace_Australia_P }
+      - { key: born_os,    label: Born overseas,                  src: Birthplace_Elsewhere_P }
+      - { key: lang_eng,   label: English only at home,           src: Lang_used_home_Eng_only_P }
+      - { key: lang_oth,   label: Other language at home,         src: Lang_used_home_Oth_Lang_P }
+      - { key: indigenous, label: Aboriginal and/or Torres Strait Islander, src: Indigenous_P_Tot_P }
+      - { key: citizen,    label: Australian citizen,             src: Australian_citizen_P }
+
+  - id: dwellings
+    tab: people
+    table: G36
+    universe: dwellings
+    weight: d
+    label: Private dwellings
+    columns:
+      - { key: opd,        label: Occupied private dwellings,       src: OPDs_Tot_OPDs_Dwellings }
+      - { key: unocc,      label: Unoccupied private dwellings,     src: Unoccupied_PDs_Dwgs }
+      - { key: opd_psns,   label: Persons in occupied private dwellings, src: OPDs_Tot_OPDs_Persons, universe: persons }
+
+  # ---------------------------------------------------------------- Age
+  - id: pyramid
+    tab: age
+    table: G04
+    universe: persons
+    weight: p
+    label: Age by sex (5-year groups)
+    kind: pyramid
+    columns:
+      - { key: m_0,  sex: m, lo: 0,  hi: 5,  label: "0–4",   src: Age_yr_0_4_M }
+      - { key: m_5,  sex: m, lo: 5,  hi: 10, label: "5–9",   src: Age_yr_5_9_M }
+      - { key: m_10, sex: m, lo: 10, hi: 15, label: "10–14", src: Age_yr_10_14_M }
+      - { key: m_15, sex: m, lo: 15, hi: 20, label: "15–19", src: Age_yr_15_19_M }
+      - { key: m_20, sex: m, lo: 20, hi: 25, label: "20–24", src: Age_yr_20_24_M }
+      - { key: m_25, sex: m, lo: 25, hi: 30, label: "25–29", src: Age_yr_25_29_M }
+      - { key: m_30, sex: m, lo: 30, hi: 35, label: "30–34", src: Age_yr_30_34_M }
+      - { key: m_35, sex: m, lo: 35, hi: 40, label: "35–39", src: Age_yr_35_39_M }
+      - { key: m_40, sex: m, lo: 40, hi: 45, label: "40–44", src: Age_yr_40_44_M }
+      - { key: m_45, sex: m, lo: 45, hi: 50, label: "45–49", src: Age_yr_45_49_M }
+      - { key: m_50, sex: m, lo: 50, hi: 55, label: "50–54", src: Age_yr_50_54_M }
+      - { key: m_55, sex: m, lo: 55, hi: 60, label: "55–59", src: Age_yr_55_59_M }
+      - { key: m_60, sex: m, lo: 60, hi: 65, label: "60–64", src: Age_yr_60_64_M }
+      - { key: m_65, sex: m, lo: 65, hi: 70, label: "65–69", src: Age_yr_65_69_M }
+      - { key: m_70, sex: m, lo: 70, hi: 75, label: "70–74", src: Age_yr_70_74_M }
+      - { key: m_75, sex: m, lo: 75, hi: 80, label: "75–79", src: Age_yr_75_79_M }
+      - { key: m_80, sex: m, lo: 80, hi: 85, label: "80–84", src: Age_yr_80_84_M }
+      - { key: m_85, sex: m, lo: 85, hi: null, label: "85+", src: [Age_yr_85_89_M, Age_yr_90_94_M, Age_yr_95_99_M, Age_yr_100_yr_over_M] }
+      - { key: f_0,  sex: f, lo: 0,  hi: 5,  label: "0–4",   src: Age_yr_0_4_F }
+      - { key: f_5,  sex: f, lo: 5,  hi: 10, label: "5–9",   src: Age_yr_5_9_F }
+      - { key: f_10, sex: f, lo: 10, hi: 15, label: "10–14", src: Age_yr_10_14_F }
+      - { key: f_15, sex: f, lo: 15, hi: 20, label: "15–19", src: Age_yr_15_19_F }
+      - { key: f_20, sex: f, lo: 20, hi: 25, label: "20–24", src: Age_yr_20_24_F }
+      - { key: f_25, sex: f, lo: 25, hi: 30, label: "25–29", src: Age_yr_25_29_F }
+      - { key: f_30, sex: f, lo: 30, hi: 35, label: "30–34", src: Age_yr_30_34_F }
+      - { key: f_35, sex: f, lo: 35, hi: 40, label: "35–39", src: Age_yr_35_39_F }
+      - { key: f_40, sex: f, lo: 40, hi: 45, label: "40–44", src: Age_yr_40_44_F }
+      - { key: f_45, sex: f, lo: 45, hi: 50, label: "45–49", src: Age_yr_45_49_F }
+      - { key: f_50, sex: f, lo: 50, hi: 55, label: "50–54", src: Age_yr_50_54_F }
+      - { key: f_55, sex: f, lo: 55, hi: 60, label: "55–59", src: Age_yr_55_59_F }
+      - { key: f_60, sex: f, lo: 60, hi: 65, label: "60–64", src: Age_yr_60_64_F }
+      - { key: f_65, sex: f, lo: 65, hi: 70, label: "65–69", src: Age_yr_65_69_F }
+      - { key: f_70, sex: f, lo: 70, hi: 75, label: "70–74", src: Age_yr_70_74_F }
+      - { key: f_75, sex: f, lo: 75, hi: 80, label: "75–79", src: Age_yr_75_79_F }
+      - { key: f_80, sex: f, lo: 80, hi: 85, label: "80–84", src: Age_yr_80_84_F }
+      - { key: f_85, sex: f, lo: 85, hi: null, label: "85+", src: [Age_yr_85_89_F, Age_yr_90_94_F, Age_yr_95_99_F, Age_yr_100_yr_over_F] }
+
+  # ---------------------------------------------------------------- Households
+  - id: hh_comp
+    tab: households
+    table: G42
+    universe: households
+    weight: d
+    label: Household composition
+    columns:
+      - { key: couple_kids,    label: Couple with children,    src: Tot_FHs_CF_C }
+      - { key: couple_no_kids, label: Couple without children, src: Tot_FHs_CF_no_C }
+      - { key: one_parent,     label: One-parent family,       src: Tot_FHs_OnePF }
+      - { key: other_family,   label: Other family,            src: Tot_FHs_Oth_fam }
+      - { key: lone,           label: Lone person,             src: Tot_Lone_P_H }
+      - { key: group,          label: Group household,         src: Tot_Group_H }
+
+  - id: hh_size
+    tab: households
+    table: G35
+    universe: households
+    weight: d
+    label: Persons usually resident
+    columns:
+      - { key: p1, label: "1", src: Num_Psns_UR_1_Total }
+      - { key: p2, label: "2", src: Num_Psns_UR_2_Total }
+      - { key: p3, label: "3", src: Num_Psns_UR_3_Total }
+      - { key: p4, label: "4", src: Num_Psns_UR_4_Total }
+      - { key: p5, label: "5", src: Num_Psns_UR_5_Total }
+      - { key: p6, label: "6+", src: Num_Psns_UR_6mo_Total }
+
+  # ---------------------------------------------------------------- Dwellings
+  - id: structure
+    tab: dwellings
+    table: G36
+    universe: dwellings
+    weight: d
+    label: Dwelling structure (occupied private dwellings)
+    columns:
+      - { key: house,      label: Separate house,                 src: OPDs_Separate_house_Dwellings }
+      - { key: semi_1,     label: "Semi / terrace, 1 storey",     src: OPDs_SD_r_t_h_th_1_sty_Dwgs }
+      - { key: semi_2,     label: "Semi / terrace, 2+ storeys",   src: OPDs_SD_r_t_h_th_2_m_sty_Dwgs }
+      - { key: apt_1_2,    label: "Apartment, 1–2 storey block",  src: OPDs_F_ap_I_1or2_sty_blk_Ds }
+      - { key: apt_3,      label: "Apartment, 3 storey block",    src: OPDs_F_ap_I_3_sty_blk_Dwgs }
+      - { key: apt_4_8,    label: "Apartment, 4–8 storey block",  src: OPDs_F_ap_I_4to8_sty_blk_Ds }
+      - { key: apt_9,      label: "Apartment, 9+ storey block",   src: OPDs_F_ap_I_9_m_sty_blk_Ds }
+      - { key: apt_house,  label: Flat attached to a house,       src: OPDs_Flt_apt_Att_house_Ds }
+      - { key: other,      label: Other dwelling,                 src: OPDs_Other_dwelling_Tot_Dwgs }
+      - { key: ns,         label: Not stated, role: notstated,    src: OPDs_Dwlling_structur_NS_Dwgs }
+
+  - id: bedrooms
+    tab: dwellings
+    table: G41
+    universe: dwellings
+    weight: d
+    label: Number of bedrooms (occupied private dwellings)
+    columns:
+      - { key: b0, label: "0 (bedsitter)", src: Total_NofB_0_i_b }
+      - { key: b1, label: "1",  src: Total_NofB_1 }
+      - { key: b2, label: "2",  src: Total_NofB_2 }
+      - { key: b3, label: "3",  src: Total_NofB_3 }
+      - { key: b4, label: "4",  src: Total_NofB_4 }
+      - { key: b5, label: "5",  src: Total_NofB_5 }
+      - { key: b6, label: "6+", src: Total_NofB_6_or_m }
+      - { key: ns, label: Not stated, role: notstated, src: Total_NofB_NS }
+
+  # ---------------------------------------------------------------- Tenure
+  - id: tenure
+    tab: tenure
+    table: G37
+    universe: households
+    weight: d
+    label: Tenure and landlord type
+    columns:
+      - { key: owned,          label: Owned outright,                      src: O_OR_Total }
+      - { key: mortgage,       label: Owned with a mortgage,               src: O_MTG_Total }
+      - { key: rent_agent,     label: "Rented: real estate agent",         src: R_RE_Agt_Total, parent: rented, landlord: private }
+      - { key: rent_person,    label: "Rented: person not in household",   src: R_Psn_not_in_s_hh_Total, parent: rented, landlord: private }
+      - { key: rent_state,     label: "Rented: state housing authority",   src: R_ST_h_auth_Total, parent: rented, landlord: social }
+      - { key: rent_community, label: "Rented: community housing",         src: R_Com_Hp_Total, parent: rented, landlord: social }
+      - { key: rent_other,     label: "Rented: other landlord",            src: R_Ot_landld_typ_Total, parent: rented, landlord: other }
+      - { key: rent_ns,        label: "Rented: landlord not stated",       src: R_Landld_typ_NS_Total, parent: rented, landlord: other }
+      - { key: other,          label: Other tenure,                        src: Oth_ten_type_Total }
+      - { key: ns,             label: Not stated, role: notstated,         src: Ten_type_NS_Total }
+
+  # ---------------------------------------------------------------- Rent & mortgage
+  - id: rent
+    tab: costs
+    table: G40
+    universe: households
+    weight: d
+    label: Weekly rent (rented occupied private dwellings)
+    kind: brackets
+    unit: "$/week"
+    columns:
+      - { key: r1,   lo: 1,   hi: 75,   label: "$1–74",    src: R_1_74_Tot }
+      - { key: r75,  lo: 75,  hi: 100,  label: "$75–99",   src: R_75_99_Tot }
+      - { key: r100, lo: 100, hi: 150,  label: "$100–149", src: R_100_149_Tot }
+      - { key: r150, lo: 150, hi: 200,  label: "$150–199", src: R_150_199_Tot }
+      - { key: r200, lo: 200, hi: 225,  label: "$200–224", src: R_200_224_Tot }
+      - { key: r225, lo: 225, hi: 275,  label: "$225–274", src: R_225_274_Tot }
+      - { key: r275, lo: 275, hi: 350,  label: "$275–349", src: R_275_349_Tot }
+      - { key: r350, lo: 350, hi: 450,  label: "$350–449", src: R_350_449_Tot }
+      - { key: r450, lo: 450, hi: 550,  label: "$450–549", src: R_450_549_Tot }
+      - { key: r550, lo: 550, hi: 650,  label: "$550–649", src: R_550_649_Tot }
+      - { key: r650, lo: 650, hi: 750,  label: "$650–749", src: R_650_749_Tot }
+      - { key: r750, lo: 750, hi: 850,  label: "$750–849", src: R_750_849_Tot }
+      - { key: r850, lo: 850, hi: 950,  label: "$850–949", src: R_850_949_Tot }
+      - { key: r950, lo: 950, hi: null, label: "$950+",    src: R_950_over_Tot }
+      - { key: ns,   label: Not stated, role: notstated,   src: Rent_ns_Tot }
+
+  - id: mortgage
+    tab: costs
+    table: G38
+    universe: households
+    weight: d
+    label: Monthly mortgage repayment (dwellings being purchased)
+    kind: brackets
+    unit: "$/month"
+    columns:
+      - { key: m0,    lo: 0,    hi: 300,  label: "$0–299",      src: M_0_299_Tot }
+      - { key: m300,  lo: 300,  hi: 450,  label: "$300–449",    src: M_300_449_Tot }
+      - { key: m450,  lo: 450,  hi: 600,  label: "$450–599",    src: M_450_599_Tot }
+      - { key: m600,  lo: 600,  hi: 800,  label: "$600–799",    src: M_600_799_Tot }
+      - { key: m800,  lo: 800,  hi: 1000, label: "$800–999",    src: M_800_999_Tot }
+      - { key: m1000, lo: 1000, hi: 1400, label: "$1,000–1,399", src: M_1000_1399_Tot }
+      - { key: m1400, lo: 1400, hi: 1800, label: "$1,400–1,799", src: M_1400_1799_Tot }
+      - { key: m1800, lo: 1800, hi: 2400, label: "$1,800–2,399", src: M_1800_2399_Tot }
+      - { key: m2400, lo: 2400, hi: 3000, label: "$2,400–2,999", src: M_2400_2999_Tot }
+      - { key: m3000, lo: 3000, hi: 4000, label: "$3,000–3,999", src: M_3000_3999_Tot }
+      - { key: m4000, lo: 4000, hi: null, label: "$4,000+",      src: M_4000_over_Tot }
+      - { key: ns,    label: Not stated, role: notstated,        src: Mort_Rpmnt_ns_Total }
+
+  # ---------------------------------------------------------------- Income
+  - id: income
+    tab: income
+    table: G33
+    universe: households
+    weight: d
+    label: Weekly household income (occupied private dwellings)
+    kind: brackets
+    unit: "$/week"
+    columns:
+      - { key: nil,   lo: 0,    hi: 1,    label: "Negative / nil", src: Negative_Nil_income_Tot }
+      - { key: i1,    lo: 1,    hi: 150,  label: "$1–149",       src: HI_1_149_Tot }
+      - { key: i150,  lo: 150,  hi: 300,  label: "$150–299",     src: HI_150_299_Tot }
+      - { key: i300,  lo: 300,  hi: 400,  label: "$300–399",     src: HI_300_399_Tot }
+      - { key: i400,  lo: 400,  hi: 500,  label: "$400–499",     src: HI_400_499_Tot }
+      - { key: i500,  lo: 500,  hi: 650,  label: "$500–649",     src: HI_500_649_Tot }
+      - { key: i650,  lo: 650,  hi: 800,  label: "$650–799",     src: HI_650_799_Tot }
+      - { key: i800,  lo: 800,  hi: 1000, label: "$800–999",     src: HI_800_999_Tot }
+      - { key: i1000, lo: 1000, hi: 1250, label: "$1,000–1,249", src: HI_1000_1249_Tot }
+      - { key: i1250, lo: 1250, hi: 1500, label: "$1,250–1,499", src: HI_1250_1499_Tot }
+      - { key: i1500, lo: 1500, hi: 1750, label: "$1,500–1,749", src: HI_1500_1749_Tot }
+      - { key: i1750, lo: 1750, hi: 2000, label: "$1,750–1,999", src: HI_1750_1999_Tot }
+      - { key: i2000, lo: 2000, hi: 2500, label: "$2,000–2,499", src: HI_2000_2499_Tot }
+      - { key: i2500, lo: 2500, hi: 3000, label: "$2,500–2,999", src: HI_2500_2999_Tot }
+      - { key: i3000, lo: 3000, hi: 3500, label: "$3,000–3,499", src: HI_3000_3499_Tot }
+      - { key: i3500, lo: 3500, hi: 4000, label: "$3,500–3,999", src: HI_3500_3999_Tot }
+      - { key: i4000, lo: 4000, hi: null, label: "$4,000+",      src: HI_4000_more_Tot }
+      - { key: partial, label: Partial income stated, role: notstated, src: Partial_income_stated_Tot }
+      - { key: ns,      label: All incomes not stated, role: notstated, src: All_incomes_not_stated_Tot }
+
+  # ---------------------------------------------------------------- Diversity
+  - id: cob
+    tab: diversity
+    table: G09
+    universe: persons
+    weight: p
+    label: Country of birth
+    kind: ranked
+    exclude_from_rank: [australia, elsewhere, ns]
+    columns:
+      - { key: australia,   label: Australia,        src: P_Australia_Tot }
+      - { key: afghanistan, label: Afghanistan,      src: P_Afghanistan_Tot }
+      - { key: bangladesh,  label: Bangladesh,       src: P_Bangladesh_Tot }
+      - { key: bosnia,      label: Bosnia and Herzegovina, src: P_Bosnia_Herzegov_Tot }
+      - { key: brazil,      label: Brazil,           src: P_Brazil_Tot }
+      - { key: cambodia,    label: Cambodia,         src: P_Cambodia_Tot }
+      - { key: canada,      label: Canada,           src: P_Canada_Tot }
+      - { key: chile,       label: Chile,            src: P_Chile_Tot }
+      - { key: china,       label: China,            src: P_China_Tot }
+      - { key: croatia,     label: Croatia,          src: P_Croatia_Tot }
+      - { key: egypt,       label: Egypt,            src: P_Egypt_Tot }
+      - { key: england,     label: England,          src: P_England_Tot }
+      - { key: fiji,        label: Fiji,             src: P_Fiji_Tot }
+      - { key: france,      label: France,           src: P_France_Tot }
+      - { key: germany,     label: Germany,          src: P_Germany_Tot }
+      - { key: greece,      label: Greece,           src: P_Greece_Tot }
+      - { key: hong_kong,   label: Hong Kong,        src: P_Hong_Kong_SAR_Ch_Tot }
+      - { key: india,       label: India,            src: P_India_Tot }
+      - { key: indonesia,   label: Indonesia,        src: P_Indonesia_Tot }
+      - { key: iran,        label: Iran,             src: P_Iran_Tot }
+      - { key: iraq,        label: Iraq,             src: P_Iraq_Tot }
+      - { key: ireland,     label: Ireland,          src: P_Ireland_Tot }
+      - { key: italy,       label: Italy,            src: P_Italy_Tot }
+      - { key: japan,       label: Japan,            src: P_Japan_Tot }
+      - { key: korea,       label: South Korea,      src: P_Korea_South_Tot }
+      - { key: lebanon,     label: Lebanon,          src: P_Lebanon_Tot }
+      - { key: malaysia,    label: Malaysia,         src: P_Malaysia_Tot }
+      - { key: malta,       label: Malta,            src: P_Malta_Tot }
+      - { key: mauritius,   label: Mauritius,        src: P_Mauritius_Tot }
+      - { key: myanmar,     label: Myanmar,          src: P_Myanmar_Tot }
+      - { key: nepal,       label: Nepal,            src: P_Nepal_Tot }
+      - { key: netherlands, label: Netherlands,      src: P_Netherlands_Tot }
+      - { key: nz,          label: New Zealand,      src: P_New_Zealand_Tot }
+      - { key: n_macedonia, label: North Macedonia,  src: P_North_Macedonia_Tot }
+      - { key: pakistan,    label: Pakistan,         src: P_Pakistan_Tot }
+      - { key: png,         label: Papua New Guinea, src: P_PNG_Tot }
+      - { key: philippines, label: Philippines,      src: P_Philippines_Tot }
+      - { key: poland,      label: Poland,           src: P_Poland_Tot }
+      - { key: samoa,       label: Samoa,            src: P_Samoa_Tot }
+      - { key: scotland,    label: Scotland,         src: P_Scotland_Tot }
+      - { key: singapore,   label: Singapore,        src: P_Singapore_Tot }
+      - { key: s_africa,    label: South Africa,     src: P_South_Africa_Tot }
+      - { key: sri_lanka,   label: Sri Lanka,        src: P_Sri_Lanka_Tot }
+      - { key: taiwan,      label: Taiwan,           src: P_Taiwan_Tot }
+      - { key: thailand,    label: Thailand,         src: P_Thailand_Tot }
+      - { key: turkey,      label: Türkiye,          src: P_Turkey_Tot }
+      - { key: usa,         label: United States,    src: P_USA_Tot }
+      - { key: vietnam,     label: Vietnam,          src: P_Vietnam_Tot }
+      - { key: wales,       label: Wales,            src: P_Wales_Tot }
+      - { key: zimbabwe,    label: Zimbabwe,         src: P_Zimbabwe_Tot }
+      - { key: elsewhere,   label: Other countries,  src: P_Elsewhere_Tot }
+      - { key: ns,          label: Not stated, role: notstated, src: P_COB_NS_Tot }
+
+  - id: language
+    tab: diversity
+    table: G13
+    universe: persons
+    weight: p
+    label: Language used at home
+    kind: ranked
+    exclude_from_rank: [english, other, ns]
+    columns:
+      - { key: english,     label: English only,       src: PSEO_Tot }
+      - { key: afrikaans,   label: Afrikaans,          src: POL_Afrikaans_Tot }
+      - { key: arabic,      label: Arabic,             src: POL_Arabic_Tot }
+      - { key: aus_indig,   label: Australian Indigenous languages, src: POL_AIndLng_Tot }
+      - { key: cantonese,   label: Cantonese,          src: POL_CL_Canton_Tot }
+      - { key: mandarin,    label: Mandarin,           src: POL_CL_Mandarin_Tot }
+      - { key: chinese_oth, label: Other Chinese languages, src: POL_CL_Oth_Tot }
+      - { key: croatian,    label: Croatian,           src: POL_Croatian_Tot }
+      - { key: french,      label: French,             src: POL_French_Tot }
+      - { key: german,      label: German,             src: POL_German_Tot }
+      - { key: greek,       label: Greek,              src: POL_Greek_Tot }
+      - { key: bengali,     label: Bengali,            src: POL_IAL_Bengali_Tot }
+      - { key: gujarati,    label: Gujarati,           src: POL_IAL_Guj_Tot }
+      - { key: hindi,       label: Hindi,              src: POL_IAL_Hindi_Tot }
+      - { key: nepali,      label: Nepali,             src: POL_IAL_Nepali_Tot }
+      - { key: punjabi,     label: Punjabi,            src: POL_IAL_Punjabi_Tot }
+      - { key: sinhalese,   label: Sinhalese,          src: POL_IAL_Sinhal_Tot }
+      - { key: urdu,        label: Urdu,               src: POL_IAL_Urdu_Tot }
+      - { key: indo_aryan_oth, label: Other Indo-Aryan languages, src: POL_IAL_Oth_Tot }
+      - { key: italian,     label: Italian,            src: POL_Italian_Tot }
+      - { key: japanese,    label: Japanese,           src: POL_Japan_Tot }
+      - { key: khmer,       label: Khmer,              src: POL_Khmer_Tot }
+      - { key: korean,      label: Korean,             src: POL_Korean_Tot }
+      - { key: macedonian,  label: Macedonian,         src: POL_Macedon_Tot }
+      - { key: malayalam,   label: Malayalam,          src: POL_Malayalam_Tot }
+      - { key: persian,     label: Persian (excl. Dari), src: POL_Persian_ED_Tot }
+      - { key: polish,      label: Polish,             src: POL_Polish_Tot }
+      - { key: portuguese,  label: Portuguese,         src: POL_Portuguese_Tot }
+      - { key: russian,     label: Russian,            src: POL_Russian_Tot }
+      - { key: samoan,      label: Samoan,             src: POL_Samoan_Tot }
+      - { key: serbian,     label: Serbian,            src: POL_Serbian_Tot }
+      - { key: filipino,    label: Filipino,           src: POL_SAL_Filipin_Tot }
+      - { key: indonesian,  label: Indonesian,         src: POL_SAL_Indon_Tot }
+      - { key: tagalog,     label: Tagalog,            src: POL_SAL_Tagalog_Tot }
+      - { key: se_asian_oth, label: Other Southeast Asian Austronesian languages, src: POL_SAL_Oth_Tot }
+      - { key: spanish,     label: Spanish,            src: POL_Spanish_Tot }
+      - { key: tamil,       label: Tamil,              src: POL_Tamil_Tot }
+      - { key: thai,        label: Thai,               src: POL_Thai_Tot }
+      - { key: turkish,     label: Turkish,            src: POL_Turkish_Tot }
+      - { key: vietnamese,  label: Vietnamese,         src: POL_Vietnamese_Tot }
+      - { key: other,       label: Other languages,    src: POL_Oth_Tot }
+      - { key: ns,          label: Not stated, role: notstated, src: P_LUatH_NS_Tot }
+
+  # ---------------------------------------------------------------- Work & travel
+  - id: labour
+    tab: work
+    table: G46
+    universe: persons_15plus
+    weight: p
+    label: Labour force status (persons aged 15+)
+    caveat: "Census night 10 Aug 2021 fell during the Greater Sydney COVID-19 lockdown."
+    columns:
+      - { key: emp_ft,  label: Employed full-time,        src: P_Emp_FullT_Tot }
+      - { key: emp_pt,  label: Employed part-time,        src: P_Emp_PartT_Tot }
+      - { key: emp_away, label: Employed, away from work, src: P_Emp_awy_f_wrk_Tot }
+      - { key: emp_hns, label: Employed, hours not stated, src: P_Hours_wkd_NS_Tot }
+      - { key: unemp_ft, label: Unemployed, seeking full-time, src: P_Unem_look_FTW_Tot }
+      - { key: unemp_pt, label: Unemployed, seeking part-time, src: P_Unem_look_PTW_Tot }
+      - { key: nilf,    label: Not in the labour force,   src: P_Not_in_LF_Tot }
+      - { key: ns,      label: Not stated, role: notstated, src: P_LFS_NS_Tot }
+
+  - id: travel
+    tab: work
+    table: G62
+    universe: employed_15plus
+    weight: p
+    label: Method of travel to work (employed persons)
+    caveat: "Travel to work was recorded during the 2021 lockdown: working from home is inflated and public transport use is depressed."
+    columns:
+      - { key: train,     label: Train,               src: One_method_Train_P,           mode: pt }
+      - { key: bus,       label: Bus,                 src: One_method_Bus_P,             mode: pt }
+      - { key: ferry,     label: Ferry,               src: One_method_Ferry_P,           mode: pt }
+      - { key: tram,      label: Tram / light rail,   src: One_met_Tram_or_lt_rail_P,    mode: pt }
+      - { key: taxi,      label: Taxi / rideshare,    src: One_met_Taxi_or_Rideshare_P,  mode: car }
+      - { key: car_drv,   label: Car, as driver,      src: One_method_Car_as_driver_P,   mode: car }
+      - { key: car_pass,  label: Car, as passenger,   src: One_method_Car_as_passenger_P, mode: car }
+      - { key: truck,     label: Truck,               src: One_method_Truck_P,           mode: car }
+      - { key: motorbike, label: Motorbike / scooter, src: One_method_Motorbike_scootr_P, mode: car }
+      - { key: bicycle,   label: Bicycle,             src: One_method_Bicycle_P,         mode: active }
+      - { key: walked,    label: Walked only,         src: One_method_Walked_only_P,     mode: active }
+      - { key: other1,    label: Other (one method),  src: One_method_Other_P,           mode: other }
+      - { key: multi_pt,  label: Multiple methods incl. train or bus, mode: pt,
+          src: [Two_methods_Train_Tot_P, Two_methods_Bus_Tot_P, Three_meth_Tr_2_oth_meth_P, Three_met_Bs_2_ot_met_ex_tr_P] }
+      - { key: multi_oth, label: Other multiple methods, mode: other,
+          src: [Two_methds_Othr_two_methds_P, Three_meth_Othr_three_meth_P] }
+      - { key: wfh,       label: Worked at home,      src: Worked_home_P,                mode: wfh }
+      - { key: no_work,   label: Did not go to work,  src: Did_not_go_to_work_P,         mode: none }
+      - { key: ns,        label: Not stated, role: notstated, src: Method_travel_to_work_ns_P }
+
+# Map display metrics baked into the Mesh Block tiles.
+# level: mb = true Mesh Block value; sa1 = the SA1's value drawn on its MBs.
+metrics:
+  - { key: density,       label: Population density,      unit: "persons/km²", level: mb,  scale: log }
+  - { key: dwell_density, label: Dwelling density,        unit: "dwellings/km²", level: mb, scale: log }
+  - { key: median_age,    label: Median age (interpolated), unit: years,        level: sa1, scale: linear }
+  - { key: pct_renting,   label: Renting,                  unit: "% of households", level: sa1, scale: linear }
+  - { key: pct_apartment, label: Apartments,               unit: "% of dwellings",  level: sa1, scale: linear }
+  - { key: pct_born_os,   label: Born overseas,            unit: "% of persons",    level: sa1, scale: linear }
+  - { key: pct_lang_oth,  label: Other language at home,   unit: "% of persons",    level: sa1, scale: linear }
+  - { key: hh_size,       label: Persons per household,    unit: persons,           level: sa1, scale: linear }

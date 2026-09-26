@@ -1,0 +1,99 @@
+{
+  "format": "sdx-bundle",
+  "version": 1,
+  "created": "2026-09-26T05:54:35+00:00",
+  "build": "golden-tiny",
+  "synthetic": true,
+  "crs": "EPSG:3857 metres minus origin",
+  "origin": [
+    0.0,
+    0.0
+  ],
+  "counts": {
+    "mb": 7,
+    "mb_all": 7,
+    "sa1": 3,
+    "columns": 5
+  },
+  "gccsa": "TEST",
+  "weights": {},
+  "tiles": {
+    "mb": "mb.pmtiles",
+    "basemap": "basemap/basemap.pmtiles"
+  },
+  "files": {
+    "core": {
+      "path": "core.bin",
+      "bytes": 208,
+      "sha256": "9720100a4bd5bdf2aea2922bf1c4c745dc3e2320788e15dd819bdf7c1c8407c7"
+    },
+    "schema": {
+      "path": "schema.json",
+      "bytes": 337,
+      "sha256": "9b30660ec9d200a764caf9d3a07bf70281c3ad5c53c00235bcc4408aadb038f5"
+    },
+    "benchmark": {
+      "path": "benchmark.json",
+      "bytes": 47,
+      "sha256": "0c419dc77441b526b2b2b2155006139b3bf2861323e3435f3919f323f4bd189c"
+    }
+  },
+  "arrays": [
+    {
+      "name": "mb_xy",
+      "dtype": "f32",
+      "shape": [
+        7,
+        2
+      ],
+      "byteOffset": 0,
+      "byteLength": 56
+    },
+    {
+      "name": "mb_sa1",
+      "dtype": "u32",
+      "shape": [
+        7
+      ],
+      "byteOffset": 56,
+      "byteLength": 28
+    },
+    {
+      "name": "mb_wp",
+      "dtype": "f32",
+      "shape": [
+        7
+      ],
+      "byteOffset": 88,
+      "byteLength": 28
+    },
+    {
+      "name": "mb_wd",
+      "dtype": "f32",
+      "shape": [
+        7
+      ],
+      "byteOffset": 120,
+      "byteLength": 28
+    },
+    {
+      "name": "sa1_attr",
+      "dtype": "u16",
+      "shape": [
+        3,
+        5
+      ],
+      "byteOffset": 152,
+      "byteLength": 30
+    },
+    {
+      "name": "sa1_code",
+      "dtype": "f64",
+      "shape": [
+        3
+      ],
+      "byteOffset": 184,
+      "byteLength": 24
+    }
+  ]
+}

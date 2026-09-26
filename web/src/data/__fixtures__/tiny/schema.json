@@ -1,0 +1,1 @@
+{"columns":[{"key":"sex.m","index":0,"weight":"p"},{"key":"sex.f","index":1,"weight":"p"},{"key":"person_flags.born_os","index":2,"weight":"p"},{"key":"dwellings.opd","index":3,"weight":"d"},{"key":"dwellings.unocc","index":4,"weight":"d"}],"blocks":{"p":[0,3],"d":[3,5]},"groups":[{"id":"sex","columns":["sex.m","sex.f"]}],"metrics":[]}
