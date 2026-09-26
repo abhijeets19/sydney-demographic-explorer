@@ -8,8 +8,8 @@ Data: ABS 2021 Census General Community Profile (SA1), apportioned to Mesh Block
 ```bash
 make setup      # uv sync (pipeline) + npm install (web)
 make basemap    # ~100 MB Protomaps extract (once)
-make synth      # real MB geometry + synthetic values -> data/out/current
-make dev        # http://localhost:5173
+make data       # real build + validation -> data/out/current   (make synth: fake values)
+make dev        # http://localhost:5173   (/?hud dev readout · /bench.html · /?bench=drag)
 make test
 ```
 Tools: `uv`, `tippecanoe`, `pmtiles` and Node 22.
@@ -20,7 +20,7 @@ Tools: `uv`, `tippecanoe`, `pmtiles` and Node 22.
 - `docs/bundle-format.md`: the binary format shared by `pipeline/censusx/bundle.py` and `web/src/data/format.ts`.
 - `data/`: raw inputs (see `data/raw/SOURCES.md`), intermediates and builds. Gitignored.
 
-## Method (short)
+## Method (short, full notes in docs/method.md)
 - A catchment includes each Mesh Block whose point-on-surface lies inside the circle.
 - Each included MB contributes its share of its SA1's Census counts:
   - person tables are weighted by MB persons ÷ SA1 persons;

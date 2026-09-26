@@ -20,7 +20,9 @@ export class CircleEngine {
   readonly nCol: number;
   private readonly pEnd: number;
   private readonly index: KDBush;
-  private readonly hits: Uint32Array;
+  /** MB ids hit by the last query: `hits.subarray(0, lastN)` */
+  readonly hits: Uint32Array;
+  lastN = 0;
   private readonly accP: Float64Array;
   private readonly accD: Float64Array;
   private readonly mark: Uint8Array;
@@ -60,6 +62,7 @@ export class CircleEngine {
     const { mb_sa1, mb_wp, mb_wd, sa1_attr } = this.a;
     const { accP, accD, mark, touched, hits } = this;
     const n = this.index.withinInto(x, y, r, hits);
+    this.lastN = n;
     let nT = 0;
     for (let k = 0; k < n; k++) {
       const i = hits[k];

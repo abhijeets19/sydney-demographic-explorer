@@ -1,8 +1,10 @@
 /** OKLCH -> sRGB hex (gamut-clipped). L in [0,1], C ~[0,0.37], h in degrees. */
 export function oklch(l: number, c: number, h: number): string {
   const hr = (h * Math.PI) / 180;
-  const a = c * Math.cos(hr);
-  const b = c * Math.sin(hr);
+  return oklab(l, c * Math.cos(hr), c * Math.sin(hr));
+}
+
+export function oklab(l: number, a: number, b: number): string {
   const l_ = l + 0.3963377774 * a + 0.2158037573 * b;
   const m_ = l - 0.1055613458 * a - 0.0638541728 * b;
   const s_ = l - 0.0894841775 * a - 1.291485548 * b;
@@ -22,13 +24,30 @@ export function oklch(l: number, c: number, h: number): string {
   return `#${enc(r)}${enc(g)}${enc(bl)}`;
 }
 
-/** Low-chroma "ink → slate → fog" ramp; saturated colour is reserved for the pins. */
-export function slateRamp(n: number): string[] {
+/**
+ * Mesh Block mosaic ramp: deep indigo-slate -> neutral -> warm bone, interpolated in OKLab so the
+ * middle passes through quiet greys. Chroma stays well below the pin accents (cyan, coral).
+ */
+export function mosaicRamp(n: number): string[] {
+  const stops: [number, number, number][] = [
+    [0.21, 0.05, 280],
+    [0.35, 0.05, 266],
+    [0.49, 0.034, 250],
+    [0.63, 0.016, 215],
+    [0.77, 0.022, 80],
+  ];
+  const lab = stops.map(([l, c, h]) => [l, c * Math.cos((h * Math.PI) / 180), c * Math.sin((h * Math.PI) / 180)]);
   return Array.from({ length: n }, (_, i) => {
-    const t = i / (n - 1);
-    return oklch(0.225 + 0.5 * t ** 0.95, 0.012 + 0.026 * Math.sin(Math.PI * t) + 0.004 * t, 256 - 32 * t);
+    const t = (i / (n - 1)) * (lab.length - 1);
+    const j = Math.min(lab.length - 2, Math.floor(t));
+    const u = t - j;
+    const [l0, a0, b0] = lab[j];
+    const [l1, a1, b1] = lab[j + 1];
+    return oklab(l0 + (l1 - l0) * u, a0 + (a1 - a0) * u, b0 + (b1 - b0) * u);
   });
 }
 
-/** mako (seaborn), for the palette A/B comparison. */
-export const MAKO = ['#0b0405', '#2e1e3c', '#413d7b', '#37659e', '#348fa7', '#40b7ad', '#8ad9b1', '#def5e5'];
+export const PIN_COLORS = {
+  a: { main: '#19e3f2', deep: '#0f98a4', ink: '#04181b' },
+  b: { main: '#ff7a66', deep: '#c24e3d', ink: '#230905' },
+} as const;

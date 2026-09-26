@@ -6,7 +6,7 @@ import mlWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { Protocol } from 'pmtiles';
 import { useEffect, useRef } from 'react';
 import type { SchemaMetric } from '../data/schema';
-import { buildStyle } from './style';
+import { buildStyle, mbFilter, metricColor } from './style';
 
 setWorkerUrl(mlWorkerUrl);
 let protocolAdded = false;
@@ -15,9 +15,12 @@ export function MapView(props: {
   basemapUrl: string;
   mbUrl: string;
   metric: SchemaMetric;
-  onMap?: (map: MlMap) => void;
+  bounds: [[number, number], [number, number]];
+  padding: { left: number; top: number; right: number; bottom: number };
+  onLoad: (map: MlMap) => void;
 }) {
   const el = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<MlMap | null>(null);
 
   useEffect(() => {
     if (!protocolAdded) {
@@ -27,8 +30,8 @@ export function MapView(props: {
     const map = new MlMap({
       container: el.current!,
       style: buildStyle(props),
-      center: [151.02, -33.84],
-      zoom: 10.3,
+      bounds: props.bounds,
+      fitBoundsOptions: { padding: props.padding },
       minZoom: 8.5,
       maxZoom: 17,
       maxBounds: [
@@ -43,12 +46,23 @@ export function MapView(props: {
       fadeDuration: 0,
     });
     map.touchZoomRotate.disableRotation();
-    map.keyboard.disableRotation();
-    props.onMap?.(map);
+    map.keyboard.disable(); // arrow keys nudge pins instead
+    mapRef.current = map;
     (window as unknown as { __map: MlMap }).__map = map;
-    return () => map.remove();
+    map.once('load', () => props.onLoad(map));
+    return () => {
+      mapRef.current = null;
+      map.remove();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.basemapUrl, props.mbUrl]);
 
-  return <div ref={el} style={{ position: 'absolute', inset: 0 }} />;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !map.getLayer('mb-fill')) return;
+    map.setFilter('mb-fill', mbFilter(props.metric));
+    map.setPaintProperty('mb-fill', 'fill-color', metricColor(props.metric));
+  }, [props.metric]);
+
+  return <div ref={el} className="map" />;
 }

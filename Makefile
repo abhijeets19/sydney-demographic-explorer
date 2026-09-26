@@ -4,11 +4,14 @@ PY := cd pipeline && $(UV) run --quiet
 BASEMAP_BUILD ?= 20260925
 BASEMAP_BBOX ?= 149.90,-34.40,151.70,-32.90
 
-.PHONY: setup synth basemap dev test typecheck build
+.PHONY: setup data synth basemap dev test typecheck build
 
 setup:            ## install pipeline + web dependencies
 	cd pipeline && $(UV) sync
 	cd web && npm install
+
+data:             ## real build: MB counts + GCP SA1 + validation -> data/out/current
+	$(PY) python -m censusx.cli build
 
 synth:            ## real MB geometry + synthetic values -> data/out/current
 	$(PY) python -m censusx.cli synth

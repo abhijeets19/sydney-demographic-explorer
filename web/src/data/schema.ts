@@ -38,6 +38,8 @@ export interface SchemaMetric {
   scale: 'log' | 'linear';
   prop: string;
   domain: [number, number];
+  /** quantile breaks (2nd–98th percentile, 9 values) */
+  breaks?: number[];
 }
 
 export interface Schema {

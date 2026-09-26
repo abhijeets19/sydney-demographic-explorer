@@ -72,6 +72,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(HERE, 'index.html'),
+        bench: path.resolve(HERE, 'bench.html'),
       },
     },
   },

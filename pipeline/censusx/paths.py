@@ -11,5 +11,6 @@ GCP_METADATA = "Metadata/Metadata_2021_GCP_DataPack_R1_R2.xlsx"
 GCP_CSV_DIR = "2021 Census GCP Statistical Area 1 for NSW"
 MB_ZIP = RAW / "MB_2021_AUST_SHP_GDA2020.zip"
 MB_SHP = "MB_2021_AUST_GDA2020.shp"
+MB_COUNTS = RAW / "Mesh Block Counts, 2021.xlsx"
 
 GCCSA = "1GSYD"
