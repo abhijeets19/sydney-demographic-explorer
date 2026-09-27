@@ -1,0 +1,113 @@
+{
+ "format": "sdx-bundle",
+ "version": 1,
+ "created": "2026-09-26T14:27:09+00:00",
+ "build": "real-20260927-002709",
+ "synthetic": false,
+ "crs": "EPSG:3857 metres minus origin",
+ "origin": [
+  16833000.0,
+  -4011000.0
+ ],
+ "counts": {
+  "mb": 49502,
+  "mb_all": 60881,
+  "sa1": 12175,
+  "columns": 252
+ },
+ "gccsa": "1GSYD",
+ "weights": {
+  "w_p_fallback_sa1s": {
+   "dwellings": 3,
+   "res_area": 0,
+   "equal": 9,
+   "unresolved": 0
+  },
+  "w_d_fallback_sa1s": {
+   "persons": 53,
+   "res_area": 0,
+   "equal": 3,
+   "unresolved": 0
+  }
+ },
+ "tiles": {
+  "mb": "mb.pmtiles",
+  "basemap": "basemap/basemap.pmtiles"
+ },
+ "files": {
+  "core": {
+   "path": "core.bin.gz",
+   "bytes": 7223640,
+   "sha256": "226af94dadf87caeea47cfe52fb8b581be77bf7d4f935d8ed45574ef573ba0d7",
+   "encoding": "gzip"
+  },
+  "schema": {
+   "path": "schema.json",
+   "bytes": 63771,
+   "sha256": "03ad88b2e99423baf1d796e064883272471b25a76b876d3527718c3c45df849c"
+  },
+  "benchmark": {
+   "path": "benchmark.json",
+   "bytes": 6169,
+   "sha256": "344d782eba7c7592d58d4c2da1f192593c04925a817e070c0677418b2a313e9e"
+  }
+ },
+ "arrays": [
+  {
+   "name": "mb_xy",
+   "dtype": "f32",
+   "shape": [
+    49502,
+    2
+   ],
+   "byteOffset": 0,
+   "byteLength": 396016
+  },
+  {
+   "name": "mb_sa1",
+   "dtype": "u32",
+   "shape": [
+    49502
+   ],
+   "byteOffset": 396016,
+   "byteLength": 198008
+  },
+  {
+   "name": "mb_wp",
+   "dtype": "f32",
+   "shape": [
+    49502
+   ],
+   "byteOffset": 594024,
+   "byteLength": 198008
+  },
+  {
+   "name": "mb_wd",
+   "dtype": "f32",
+   "shape": [
+    49502
+   ],
+   "byteOffset": 792032,
+   "byteLength": 198008
+  },
+  {
+   "name": "sa1_attr",
+   "dtype": "u16",
+   "shape": [
+    12175,
+    252
+   ],
+   "byteOffset": 990040,
+   "byteLength": 6136200
+  },
+  {
+   "name": "sa1_code",
+   "dtype": "f64",
+   "shape": [
+    12175
+   ],
+   "byteOffset": 7126240,
+   "byteLength": 97400
+  }
+ ]
+}
