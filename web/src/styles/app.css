@@ -660,6 +660,9 @@ body.grabbing * {
   background: rgba(236, 240, 243, 0.8);
   border-radius: 1px;
 }
+.l-short {
+  display: none;
+}
 .bar-val {
   text-align: right;
   font-weight: 600;
@@ -784,8 +787,12 @@ body.grabbing * {
     gap: 5px;
     font-size: 10px;
   }
-  .sec-head .muted {
+  .sec-head .muted,
+  .l-full {
     display: none;
+  }
+  .l-short {
+    display: inline;
   }
   .people-sex {
     flex-direction: column;

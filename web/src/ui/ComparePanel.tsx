@@ -282,7 +282,14 @@ function Section({ s, i, gsMedian }: { s: SectionSpec; i: number; gsMedian: stri
       <div className="bars">
         {Array.from({ length: n }, (_, r) => (
           <div className="bar-row" key={r}>
-            <span className="bar-label">{s.kind === 'bars' ? s.rows[r].label : ''}</span>
+            {s.kind === 'bars' ? (
+              <span className="bar-label" title={s.rows[r].label}>
+                <span className="l-full">{s.rows[r].label}</span>
+                <span className="l-short">{s.rows[r].short ?? s.rows[r].label}</span>
+              </span>
+            ) : (
+              <span className="bar-label" />
+            )}
             <span className="bar-track">
               <i className="bar-fill" />
               <i className="bar-gs" />

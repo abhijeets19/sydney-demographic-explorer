@@ -8,7 +8,8 @@ export interface BarsSpec {
   kind: 'bars';
   title: string;
   unit: string;
-  rows: { label: string; keys: string[] }[];
+  /** `short` is shown on phones instead of `label` */
+  rows: { label: string; short?: string; keys: string[] }[];
 }
 export interface HistSpec {
   kind: 'hist';
@@ -48,12 +49,12 @@ export const EXTRA_TABS: TabSpec[] = [
         title: 'Household composition',
         unit: '% of households',
         rows: [
-          { label: 'Couple with children', keys: k('hh_comp', 'couple_kids') },
-          { label: 'Couple, no children', keys: k('hh_comp', 'couple_no_kids') },
-          { label: 'One-parent family', keys: k('hh_comp', 'one_parent') },
+          { label: 'Couple with children', short: 'Couple + kids', keys: k('hh_comp', 'couple_kids') },
+          { label: 'Couple, no children', short: 'Couple, no kids', keys: k('hh_comp', 'couple_no_kids') },
+          { label: 'One-parent family', short: 'One parent', keys: k('hh_comp', 'one_parent') },
           { label: 'Other family', keys: k('hh_comp', 'other_family') },
           { label: 'Lone person', keys: k('hh_comp', 'lone') },
-          { label: 'Group household', keys: k('hh_comp', 'group') },
+          { label: 'Group household', short: 'Group', keys: k('hh_comp', 'group') },
         ],
       },
       {
@@ -79,12 +80,12 @@ export const EXTRA_TABS: TabSpec[] = [
         title: 'Dwelling structure',
         unit: '% of occupied dwellings',
         rows: [
-          { label: 'Separate house', keys: k('structure', 'house') },
-          { label: 'Semi / terrace', keys: k('structure', 'semi_1', 'semi_2') },
-          { label: 'Apartment, 1–2 storeys', keys: k('structure', 'apt_1_2') },
-          { label: 'Apartment, 3 storeys', keys: k('structure', 'apt_3') },
-          { label: 'Apartment, 4–8 storeys', keys: k('structure', 'apt_4_8') },
-          { label: 'Apartment, 9+ storeys', keys: k('structure', 'apt_9') },
+          { label: 'Separate house', short: 'House', keys: k('structure', 'house') },
+          { label: 'Semi / terrace', short: 'Semi/terrace', keys: k('structure', 'semi_1', 'semi_2') },
+          { label: 'Apartment, 1–2 storeys', short: 'Apt 1–2 st', keys: k('structure', 'apt_1_2') },
+          { label: 'Apartment, 3 storeys', short: 'Apt 3 st', keys: k('structure', 'apt_3') },
+          { label: 'Apartment, 4–8 storeys', short: 'Apt 4–8 st', keys: k('structure', 'apt_4_8') },
+          { label: 'Apartment, 9+ storeys', short: 'Apt 9+ st', keys: k('structure', 'apt_9') },
           { label: 'Other', keys: k('structure', 'apt_house', 'other') },
         ],
       },
@@ -111,12 +112,12 @@ export const EXTRA_TABS: TabSpec[] = [
         title: 'Tenure and landlord',
         unit: '% of households',
         rows: [
-          { label: 'Owned outright', keys: k('tenure', 'owned') },
-          { label: 'Owned with mortgage', keys: k('tenure', 'mortgage') },
-          { label: 'Rented, private', keys: k('tenure', 'rent_agent', 'rent_person') },
-          { label: 'Rented, social housing', keys: k('tenure', 'rent_state', 'rent_community') },
-          { label: 'Rented, other', keys: k('tenure', 'rent_other', 'rent_ns') },
-          { label: 'Other tenure', keys: k('tenure', 'other') },
+          { label: 'Owned outright', short: 'Owned', keys: k('tenure', 'owned') },
+          { label: 'Owned with mortgage', short: 'Mortgage', keys: k('tenure', 'mortgage') },
+          { label: 'Rented, private', short: 'Rent private', keys: k('tenure', 'rent_agent', 'rent_person') },
+          { label: 'Rented, social housing', short: 'Rent social', keys: k('tenure', 'rent_state', 'rent_community') },
+          { label: 'Rented, other', short: 'Rent other', keys: k('tenure', 'rent_other', 'rent_ns') },
+          { label: 'Other tenure', short: 'Other', keys: k('tenure', 'other') },
         ],
       },
     ],
@@ -166,11 +167,11 @@ export const EXTRA_TABS: TabSpec[] = [
         title: 'Labour force status',
         unit: '% of persons 15+',
         rows: [
-          { label: 'Employed, full-time', keys: k('labour', 'emp_ft') },
-          { label: 'Employed, part-time', keys: k('labour', 'emp_pt') },
-          { label: 'Employed, away / other', keys: k('labour', 'emp_away', 'emp_hns') },
+          { label: 'Employed, full-time', short: 'Full-time', keys: k('labour', 'emp_ft') },
+          { label: 'Employed, part-time', short: 'Part-time', keys: k('labour', 'emp_pt') },
+          { label: 'Employed, away / other', short: 'Away/other', keys: k('labour', 'emp_away', 'emp_hns') },
           { label: 'Unemployed', keys: k('labour', 'unemp_ft', 'unemp_pt') },
-          { label: 'Not in labour force', keys: k('labour', 'nilf') },
+          { label: 'Not in labour force', short: 'Not in LF', keys: k('labour', 'nilf') },
         ],
       },
       {
@@ -179,10 +180,10 @@ export const EXTRA_TABS: TabSpec[] = [
         unit: '% of employed',
         rows: [
           { label: 'Car', keys: k('travel', 'car_drv', 'car_pass', 'taxi', 'truck', 'motorbike') },
-          { label: 'Public transport', keys: k('travel', 'train', 'bus', 'ferry', 'tram', 'multi_pt') },
-          { label: 'Walked or cycled', keys: k('travel', 'walked', 'bicycle') },
-          { label: 'Worked at home', keys: k('travel', 'wfh') },
-          { label: 'Did not go to work', keys: k('travel', 'no_work') },
+          { label: 'Public transport', short: 'Transit', keys: k('travel', 'train', 'bus', 'ferry', 'tram', 'multi_pt') },
+          { label: 'Walked or cycled', short: 'Walk/cycle', keys: k('travel', 'walked', 'bicycle') },
+          { label: 'Worked at home', short: 'At home', keys: k('travel', 'wfh') },
+          { label: 'Did not go to work', short: 'Didn\'t go', keys: k('travel', 'no_work') },
           { label: 'Other', keys: k('travel', 'other1', 'multi_oth') },
         ],
       },
