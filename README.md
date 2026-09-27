@@ -11,6 +11,7 @@ make basemap    # ~100 MB Protomaps extract (once)
 make data       # real build + validation -> data/out/current   (make synth: fake values)
 make dev        # http://localhost:5173   (/?hud dev readout · /bench.html · /?bench=drag)
 make test
+make pages      # publish to GitHub Pages (gh-pages branch)
 ```
 Tools: `uv`, `tippecanoe`, `pmtiles` and Node 22.
 

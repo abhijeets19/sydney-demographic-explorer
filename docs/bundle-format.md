@@ -23,7 +23,7 @@ basemap/basemap.pmtiles (relative to the data root, not the build) — Protomaps
 | `origin` | `[x0, y0]` in EPSG:3857 metres. All stored xy are `(x − x0, y − y0)`. |
 | `counts` | `mb` = weighted MBs (N), `mb_all` = all MBs in tiles, `sa1` = S, `columns` = C |
 | `weights` | fallback report from `weights.compute` |
-| `files` | `{key: {path, bytes, sha256}}` for core + JSON files |
+| `files` | `{key: {path, bytes, sha256}}` for core + JSON files. A deploy may point `core` at a gzipped `core.bin.gz` (`encoding: "gzip"`); readers detect gzip by its magic bytes. |
 | `arrays` | `[{name, dtype, shape, byteOffset, byteLength}]` into `core.bin` |
 
 dtype codes: `f32 f64 u32 i32 u16 u8`.

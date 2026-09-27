@@ -1,7 +1,8 @@
 import { assertManifest, type Manifest } from './format';
 import type { Benchmark, Schema } from './schema';
 
-export const DATA_ROOT = '/data';
+/** Respects Vite's base path, so the site also works under e.g. /sydney-demographic-explorer/ on GitHub Pages. */
+export const DATA_ROOT = `${import.meta.env.BASE_URL}data`;
 export const DATA = `${DATA_ROOT}/current`;
 
 export interface Meta {

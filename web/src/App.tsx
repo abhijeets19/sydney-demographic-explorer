@@ -18,6 +18,8 @@ const PANEL_W = 700;
 
 function viewPadding() {
   const w = window.innerWidth;
+  // phones: the panel is a bottom sheet (max 46vh) above the toolbar
+  if (w <= 700) return { left: 20, top: 56, right: 20, bottom: Math.round(window.innerHeight * 0.46) + 70 };
   const left = w > 1100 ? Math.min(PANEL_W + 36, w * 0.45) : 24;
   return { left, top: 72, right: 48, bottom: 110 };
 }

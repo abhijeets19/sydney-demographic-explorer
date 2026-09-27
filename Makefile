@@ -4,7 +4,7 @@ PY := cd pipeline && $(UV) run --quiet
 BASEMAP_BUILD ?= 20260925
 BASEMAP_BBOX ?= 149.90,-34.40,151.70,-32.90
 
-.PHONY: setup data synth basemap dev test typecheck build
+.PHONY: setup data synth basemap dev test typecheck build pages
 
 setup:            ## install pipeline + web dependencies
 	cd pipeline && $(UV) sync
@@ -33,3 +33,6 @@ typecheck:
 
 build:
 	cd web && npx vite build
+
+pages:            ## build site + data and publish to GitHub Pages (gh-pages branch)
+	bash scripts/deploy-pages.sh

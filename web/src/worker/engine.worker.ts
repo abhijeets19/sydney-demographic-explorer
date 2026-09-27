@@ -46,7 +46,13 @@ const api = {
     const t0 = performance.now();
     const r = await fetch(`${baseUrl}/${manifest.files.core.path}`);
     if (!r.ok) throw new Error(`core.bin: HTTP ${r.status}`);
-    const buf = await r.arrayBuffer();
+    let buf = await r.arrayBuffer();
+    // Static hosts without Content-Encoding control get a pre-gzipped core.bin.gz. Detect by magic bytes,
+    // so a host that already decoded it (Content-Encoding: gzip) still works.
+    const head = new Uint8Array(buf, 0, 2);
+    if (head[0] === 0x1f && head[1] === 0x8b) {
+      buf = await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+    }
     const t1 = performance.now();
     arrays = viewArrays(manifest, buf);
     const t2 = performance.now();

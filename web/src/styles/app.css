@@ -534,6 +534,7 @@ body.grabbing * {
 }
 .pin .handle {
   pointer-events: all;
+  touch-action: none; /* dragging a pin must not scroll or pan the page */
   cursor: grab;
   outline: none;
   transform-box: fill-box;
@@ -715,4 +716,110 @@ body.grabbing * {
 }
 .panel-single .bar-row {
   grid-template-columns: 136px 1fr 34px;
+}
+
+/* ---------------------------------------------------------------- phones: panel becomes a bottom sheet */
+@media (max-width: 700px) {
+  .title-chip {
+    top: 8px;
+    left: 8px;
+    height: 28px;
+    font-size: 12px;
+  }
+  .chip-sub,
+  .hint-pill {
+    display: none;
+  }
+  .panel,
+  .panel-single {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 62px;
+    width: auto;
+    max-width: none;
+    max-height: 46vh;
+    overflow-y: auto;
+    padding: 10px;
+    overscroll-behavior: contain;
+  }
+  .panel-head {
+    padding-bottom: 6px;
+  }
+  .panel-head p {
+    display: none;
+  }
+  .tabs-row {
+    margin: 0 -10px 8px;
+    padding: 0 10px 8px;
+  }
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tabs button {
+    flex: none;
+    padding: 5px 10px;
+  }
+  .cards {
+    gap: 6px;
+  }
+  .card {
+    padding: 8px 8px 6px;
+  }
+  .card-total .big {
+    font-size: 16px;
+  }
+  .card-total .unit,
+  .panel-note {
+    display: none;
+  }
+  .bar-row,
+  .panel-single .bar-row {
+    grid-template-columns: 72px 1fr 28px;
+    gap: 5px;
+    font-size: 10px;
+  }
+  .sec-head .muted {
+    display: none;
+  }
+  .people-sex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .donut {
+    align-self: center;
+    width: 64px;
+    height: 64px;
+  }
+  .toolbar {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    transform: none;
+    gap: 10px;
+    padding: 6px 8px;
+    overflow: visible;
+    max-width: none;
+  }
+  .toolbar .metric,
+  .toolbar .radius .tb-label {
+    display: none;
+  }
+  .toolbar .radius {
+    flex: 1;
+    min-width: 0;
+  }
+  .radius input[type='range'] {
+    width: 100%;
+    min-width: 0;
+  }
+  .maplibregl-ctrl-bottom-right {
+    display: none;
+  }
 }
