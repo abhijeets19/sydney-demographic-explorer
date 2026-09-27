@@ -11,7 +11,7 @@ import { PinOverlay } from './map/overlay';
 import { applyMembership } from './map/tint';
 import { DEFAULT_PINS, DEFAULT_RADIUS, useUi, type Mode } from './state/store';
 import { HintPill, Legend, SourceLine, TitleChip, Toolbar } from './ui/Chrome';
-import { ComparePanel } from './ui/ComparePanel';
+import { ComparePanel, TABS } from './ui/ComparePanel';
 import type { EngineApi, InitResult } from './worker/engine.worker';
 
 const PANEL_W = 700;
@@ -89,6 +89,7 @@ export function App() {
     const onKey = (e: KeyboardEvent) => {
       if ((e.target as HTMLElement).tagName === 'SELECT') return;
       if (e.key === '`') setHud((h) => !h);
+      if (/^[1-9]$/.test(e.key) && TABS[Number(e.key) - 1]) set({ tab: TABS[Number(e.key) - 1].id });
       if (e.key === 'a' || e.key === 'A') set({ activePin: 'a' });
       if ((e.key === 'b' || e.key === 'B') && useUi.getState().mode === 'compare') set({ activePin: 'b' });
     };

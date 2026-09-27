@@ -590,3 +590,129 @@ body.grabbing * {
     width: 110px;
   }
 }
+
+/* ---------------------------------------------------------------- bar & histogram sections */
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.sec-head .muted {
+  font-size: 10.5px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bar-row {
+  display: grid;
+  grid-template-columns: 124px 1fr 34px;
+  align-items: center;
+  gap: 8px;
+  height: 16px;
+  font-size: 11px;
+}
+.bar-label {
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bar-track {
+  position: relative;
+  height: 10px;
+  background: #11161b;
+  border-radius: 2px;
+}
+.bar-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+.card-a .bar-fill {
+  background: var(--pin-a);
+}
+.card-b .bar-fill {
+  background: var(--pin-b);
+}
+.bar-gs {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 1.5px;
+  margin-left: -0.75px;
+  background: rgba(236, 240, 243, 0.8);
+  border-radius: 1px;
+}
+.bar-val {
+  text-align: right;
+  font-weight: 600;
+}
+.hist {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hist-base {
+  stroke: var(--hairline-strong);
+}
+.hist-med {
+  stroke: var(--text-1);
+  stroke-width: 1.5;
+}
+.hist-gs {
+  stroke: rgba(236, 240, 243, 0.6);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.hist-tick {
+  font-family: var(--font);
+  fill: var(--text-3);
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+.sec-foot {
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--text-2);
+}
+.sec-foot b {
+  color: var(--text-1);
+  font-weight: 650;
+}
+.panel-caveat {
+  margin-top: 9px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(232, 196, 106, 0.08);
+  color: var(--warn);
+  font-size: 10.5px;
+}
+.gs-tick {
+  display: inline-block;
+  width: 1.5px;
+  height: 11px;
+  background: rgba(236, 240, 243, 0.8);
+  margin: 0 3px;
+}
+.tabs {
+  flex-wrap: wrap;
+}
+.panel-single .bar-row {
+  grid-template-columns: 136px 1fr 34px;
+}

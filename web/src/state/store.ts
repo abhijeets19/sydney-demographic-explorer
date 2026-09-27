@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 export type PinId = 'a' | 'b';
 export const PINS: PinId[] = ['a', 'b'];
-export type Tab = 'people' | 'age';
+export type Tab = 'people' | 'age' | 'households' | 'dwellings' | 'tenure' | 'costs' | 'income' | 'diversity' | 'work';
 export type Mode = 'single' | 'compare';
 
 export interface LonLat {
